@@ -1,0 +1,133 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile document",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "User auth UID"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name"
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "User avatar URL"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of account creation"
+        },
+        "lastLoginAt": {
+          "type": "string",
+          "description": "ISO timestamp of last login"
+        }
+      },
+      "required": ["uid", "email"]
+    },
+    "JournalEntry": {
+      "title": "JournalEntry",
+      "description": "A learning journal message or Gemini response",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique entry ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Auth UID of the owner"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["user", "model"],
+          "description": "Speaker role: user or model"
+        },
+        "text": {
+          "type": "string",
+          "description": "Content of the journal entry or AI guidance",
+          "maxLength": 10000
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp string"
+        },
+        "timestamp": {
+          "type": "number",
+          "description": "Unix millisecond timestamp"
+        },
+        "topic": {
+          "type": "string",
+          "description": "Optional category or concept learned",
+          "maxLength": 100
+        }
+      },
+      "required": ["id", "userId", "role", "text", "createdAt", "timestamp"]
+    },
+    "LearningSummary": {
+      "title": "LearningSummary",
+      "description": "A generated summary of learning with concepts to revise and next action for tomorrow",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique summary ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Auth UID of the owner"
+        },
+        "learningSummary": {
+          "type": "string",
+          "description": "Short, beginner-friendly summary of what was learned",
+          "maxLength": 20000
+        },
+        "conceptToRevise": {
+          "type": "string",
+          "description": "One important concept to review or understand better",
+          "maxLength": 10000
+        },
+        "nextAction": {
+          "type": "string",
+          "description": "One practical, simple learning action for tomorrow",
+          "maxLength": 10000
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp string"
+        },
+        "timestamp": {
+          "type": "number",
+          "description": "Unix millisecond timestamp"
+        },
+        "topic": {
+          "type": "string",
+          "description": "Optional category or topic focus",
+          "maxLength": 100
+        }
+      },
+      "required": ["id", "userId", "learningSummary", "conceptToRevise", "nextAction", "createdAt", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Private user profile stored securely under the user UID"
+    },
+    "/users/{userId}/entries/{entryId}": {
+      "schema": "JournalEntry",
+      "description": "Private learning journal entries and Gemini AI guidance turns"
+    },
+    "/users/{userId}/summaries/{summaryId}": {
+      "schema": "LearningSummary",
+      "description": "Private generated learning summary and next actions for the user"
+    }
+  }
+}

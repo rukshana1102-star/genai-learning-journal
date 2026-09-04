@@ -1,0 +1,6 @@
+{
+  "name": "GenAI Learning Journal",
+  "description": "Record daily learning entries, engage in guided multi-turn conversations with Gemini, and securely persist learning history in Firestore.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
